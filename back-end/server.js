@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const app = express();
+const users = require("./users.js");
+const User = users.model;
+const validUser = users.valid;
 
+const app = express();
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
   extended: false
@@ -13,10 +16,25 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // connect to the database
-mongoose.connect('mongodb://localhost:27017/cp4', {
+mongoose.connect('mongodb://localhost:27017/final', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+//COOKIE SETUP
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+const cookieSession = require('cookie-session');
+app.use(cookieSession({
+  name: 'session',
+  keys: [
+    'secretValue'
+  ],
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
 
 // Create a scheme for argument
 const argumentSchema = new mongoose.Schema({
@@ -57,10 +75,16 @@ const commentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Argument'
     },
-    userName: String,
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    },
     message:  String,
-    date: String,
-})
+    created: {
+        type: Date,
+        default: Date.now
+      },
+    })
 
 // Model for comments
 const Comment = mongoose.model('Comment',commentSchema);
@@ -73,9 +97,9 @@ app.post('/api/arguments/:argumentID/comments', async (req, res) => {
             return;
         }
         // //console.log(argument);
-        let comment = new Comment({
+        const comment = new Comment({
             argument: argument,
-            userName: req.body.userName,
+            user: req.user,
             message:  req.body.message,
             date: req.body.date,
         });
@@ -94,8 +118,12 @@ app.get('/api/arguments/:argumentID/comments', async (req, res) => {
             res.send(404);
             return;
         }
-        let comments = await Comment.find({argument:argument});
-        res.send(comments);
+        let comments = await Comment.find({
+          argument:argument
+        }).sort({
+          created: -1
+        }).populate('user');
+        return res.send(comments);
     } catch (error) {
         ////console.log(error);
         res.sendStatus(500);
@@ -139,5 +167,7 @@ app.delete('/api/arguments/:argumentID/comments/:commentID', async (req, res) =>
     }
 });
 
+// import the users module and setup its API path
+app.use("/api/users", users.routes);
 
-app.listen(3001, () => console.log('Server listening on port 3001!'));
+app.listen(3009, () => console.log('Server listening on port 3009!'));

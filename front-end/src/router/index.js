@@ -5,6 +5,7 @@ import Testimony from '../views/Testimony.vue'
 import Browse from '../views/Browse.vue'
 import Edit from '../views/Edit.vue'
 
+
 Vue.use(VueRouter)
 
 const routes = [

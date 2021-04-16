@@ -4,11 +4,14 @@
     <div id="conversations">
       <button class="conversation" v-for="conversation in conversations" :key="conversation._id" @click="selectconversation(conversation)">{{conversation.name}}</button>
     </div>
-    <div class='topForm'>
+
+    <div class='topForm' v-if="user">
+      <h2>{{user.firstName}} {{user.lastName}} </h2>
+      <button class='conversation' @click="logout">LOGOUT</button>
       <h2>ENTER YOUR COMMENT</h2>
       <hr class='small-hr'>
       <form @submit.prevent="addComment">
-        <input class='nameHolder' v-model="name" placeholder="NAME">
+        <!-- <input class='nameHolder' v-model="name" placeholder="NAME"> -->
         <p></p>
         <textarea class="commentInput" v-model="message" placeholder="YOUR COMMENT, IF YOU WILL"></textarea>
         <br />
@@ -16,13 +19,15 @@
       </form>
       <router-link id='edit-comment' class='conversation' to="/Edit">EDIT COMMENT</router-link>
     </div>
+    <Login v-else/>
+
     <div class='displayComments'>
       <div v-for="comment in comments" v-bind:key="comment.id">
         <div class="comment">
           <div class="message">
             <p>{{comment.message}}</p>
-            <p><i>-- {{comment.userName}}</i></p>
-            <form @submit.prevent="deleteComment">
+            <p><i>-- {{comment.user}}</i></p>
+            <form v-if="user" @submit.prevent="deleteComment">
               <button class='edit-delete' @click="deleteComment(comment)">DELETE COMMENT</button>
             </form>
           </div>
@@ -35,23 +40,37 @@
 
 <script>
 import axios from 'axios';
+import Login from '@/components/Login.vue';
 export default {
   name: 'testimony',
+  components: {
+    Login,
+  },
   data() {
     return {
       conversations: [],
 
       name: '',
       comments: [],
-      userName: '',
+      // userName: '',
       message: '',
       today: '',
+      error: '',
     }
   },
-  created() {
-    //console.log("tryna call");
+  async created() {
     this.getconversations();
-    //console.log("after tried call");
+    try {
+      let response = await axios.get('/api/users');
+      this.$root.$data.user = response.data.user;
+    } catch (error) {
+      this.$root.$data.user = null;
+    }
+  },
+  computed: {
+    user() {
+      return this.$root.$data.user;
+    }
   },
   methods: {
     async getconversations() {
@@ -73,11 +92,10 @@ export default {
     async addComment() {
           try {
             await axios.post(`/api/arguments/${this.conversation._id}/comments`, {
-              userName: this.name,
               message: this.message,
               date: new Date().toLocaleString()
             });
-            this.name = "";
+            // this.name = "";
             this.message = "";
             this.today = "";
             this.getComments();
@@ -104,6 +122,14 @@ export default {
             //console.log("After delete");
           } catch (error) {
             //console.log(error);
+          }
+        },
+        async logout() {
+          try {
+            await axios.delete("/api/users");
+            this.$root.$data.user = null;
+          } catch (error) {
+            this.$root.$data.user = null;
           }
         },
   }
