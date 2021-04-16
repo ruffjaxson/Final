@@ -1,13 +1,17 @@
 <template>
 <div>
   <div class='main-container'>
+    <div class='instructions'>
+      <h1>SELECT A CONVERSATION</h1>
+      <p>*COMMENT WILL POST TO CLONE WARS VS REBELS BY DEFAULT</p>
+    </div>
     <div id="conversations">
       <button class="conversation" v-for="conversation in conversations" :key="conversation._id" @click="selectconversation(conversation)">{{conversation.name}}</button>
     </div>
 
     <div class='topForm' v-if="user">
-      <h2>{{user.firstName}} {{user.lastName}} </h2>
-      <button class='conversation' @click="logout">LOGOUT</button>
+      <h2>LOGGED IN AS: {{user.firstName.toUpperCase()}} {{user.lastName.toUpperCase()}} </h2>
+      <button class='conversation' id='logout' @click="logout">LOGOUT</button>
       <h2>ENTER YOUR COMMENT</h2>
       <hr class='small-hr'>
       <form @submit.prevent="addComment">
@@ -26,7 +30,7 @@
         <div class="comment">
           <div class="message">
             <p>{{comment.message}}</p>
-            <p><i>-- {{comment.user}}</i></p>
+            <p><i>-- {{user.firstName}} {{user.lastName}}, that wieldeth a {{user.lightsaberColor}} saber</i></p>
             <form v-if="user" @submit.prevent="deleteComment">
               <button class='edit-delete' @click="deleteComment(comment)">DELETE COMMENT</button>
             </form>
@@ -40,6 +44,7 @@
 
 <script>
 import axios from 'axios';
+//import moment from 'moment';
 import Login from '@/components/Login.vue';
 export default {
   name: 'testimony',
@@ -54,8 +59,8 @@ export default {
       comments: [],
       // userName: '',
       message: '',
-      today: '',
       error: '',
+
     }
   },
   async created() {
@@ -69,6 +74,7 @@ export default {
   },
   computed: {
     user() {
+      //console.log(this.$root.$data.user);
       return this.$root.$data.user;
     }
   },
@@ -91,6 +97,9 @@ export default {
     },
     async addComment() {
           try {
+            if (this.conversation == null){
+              this.conversation = this.conversations[1];
+            }
             await axios.post(`/api/arguments/${this.conversation._id}/comments`, {
               message: this.message,
               date: new Date().toLocaleString()
@@ -138,6 +147,30 @@ export default {
 </script>
 
 <style scoped>
+
+.instructions {
+  color: white;
+  margin-top: 20px;
+  letter-spacing: 3px;
+}
+
+#logout {
+  width: 100px;
+  height: 50px;
+  font-size: 0.7em;
+}
+
+.topForm {
+  color: white;
+}
+
+legend {
+  color: white;
+}
+
+fieldset {
+  color: white;
+}
 
 .main-container{
   background-color: #333333;
