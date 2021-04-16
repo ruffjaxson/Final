@@ -11,6 +11,10 @@
 
     <div class='topForm' v-if="user">
       <h2>LOGGED IN AS: {{user.firstName.toUpperCase()}} {{user.lastName.toUpperCase()}} </h2>
+      <div class='changeSaber'>
+        <input id='saber' placeholder="NEW LIGHTSABER COLOR" v-model="newColor">
+        <button class='conversation' id='change' @click="change(newColor)">CHANGE</button>
+      </div>
       <button class='conversation' id='logout' @click="logout">LOGOUT</button>
       <h2>ENTER YOUR COMMENT</h2>
       <hr class='small-hr'>
@@ -54,12 +58,12 @@ export default {
   data() {
     return {
       conversations: [],
-
       name: '',
       comments: [],
       // userName: '',
       message: '',
       error: '',
+      newColor: '',
 
     }
   },
@@ -141,6 +145,31 @@ export default {
             this.$root.$data.user = null;
           }
         },
+        async change(newColor) {
+          console.log(newColor);
+
+
+          try {
+            await axios.put("/api/users", {
+              lightsaberColor: this.newColor,
+              user: this.user,
+            });
+
+            console.log("Made it through the function");
+            this.newColor = '';
+            this.getComments();
+          } catch (error) {
+            console.log(error);
+          }
+          console.log("New color is:");
+          console.log(this.user.lightsaberColor);
+        },
+
+        // put(`/api/arguments/${this.conversation._id}/comments`, {
+        //   message: this.message,
+        //   date: new Date().toLocaleString()
+        // });
+
   }
 }
 
@@ -158,6 +187,16 @@ export default {
   width: 100px;
   height: 50px;
   font-size: 0.7em;
+}
+
+#change {
+  width: 100px;
+  height: 40px;
+  font-size: 0.7em;
+}
+
+#saber {
+  width: 30%;
 }
 
 .topForm {

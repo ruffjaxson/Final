@@ -15,7 +15,7 @@
     <div class='footer'>
       <div class='footer-content'>
         <p>Pair Programmed by Jaxson Ruff and Riley Ross</p>
-        <a class='footer-link' href='https://github.com/ruffjaxson/CP4'>GitHub Repository</a>
+        <a class='footer-link' href='https://github.com/ruffjaxson/Final'>GitHub Repository</a>
       </div>
     </div>
   </div>
