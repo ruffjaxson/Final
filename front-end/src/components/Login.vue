@@ -52,6 +52,19 @@ export default {
       errorLogin: '',
     }
   },
+  async created() {
+    try {
+      let response = await axios.get('/api/users');
+      this.$root.$data.user = response.data.user;
+    } catch (error) {
+      this.$root.$data.user = null;
+    }
+  },
+  computed: {
+    user() {
+      return this.$root.$data.user;
+    }
+  },
 
   methods: {
    async register() {
@@ -68,6 +81,7 @@ export default {
          password: this.password,
        });
        this.$root.$data.user = response.data.user;
+       this.$root.$data.loggedIn = true;
      } catch (error) {
        this.error = error.response.data.message;
        this.$root.$data.user = null;

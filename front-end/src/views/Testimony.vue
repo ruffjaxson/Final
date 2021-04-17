@@ -72,6 +72,7 @@ export default {
     try {
       let response = await axios.get('/api/users');
       this.$root.$data.user = response.data.user;
+      this.$root.$data.loggedIn = true;
     } catch (error) {
       this.$root.$data.user = null;
     }
