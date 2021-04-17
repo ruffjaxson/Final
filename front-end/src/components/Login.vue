@@ -84,6 +84,7 @@ export default {
           password: this.passwordLogin,
         });
         this.$root.$data.user = response.data.user;
+        this.$root.$data.loggedIn = true;
       } catch (error) {
         this.errorLogin = "Error: " + error.response.data.message;
         this.$root.$data.user = null;
@@ -94,6 +95,11 @@ export default {
 </script>
 
 <style>
+
+.hero {
+  display: flex;
+  justify-content: center;
+}
 
 .heroBox{
   display: flex;
@@ -126,6 +132,12 @@ fieldset {
   color: white;
   font-family: 'Dela Gothic One', cursive;
   letter-spacing: 2px;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 750px) {
+  .heroBox {
+    width: 90%;
+  }
 }
 
 </style>

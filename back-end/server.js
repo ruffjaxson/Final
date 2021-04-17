@@ -96,10 +96,16 @@ app.post('/api/arguments/:argumentID/comments', async (req, res) => {
             res.send(404);
             return;
         }
-        // //console.log(argument);
+        let user = await User.findOne({_id:req.body.user._id});
+        if (!user) {
+          console.log("couldn't find user");
+            res.send(404);
+            return;
+        }
+        console.log(req);
         const comment = new Comment({
             argument: argument,
-            user: req.user,
+            user: req.body.user,
             message:  req.body.message,
             date: req.body.date,
         });
@@ -111,6 +117,7 @@ app.post('/api/arguments/:argumentID/comments', async (req, res) => {
     }
 });
 
+//get all comments
 app.get('/api/arguments/:argumentID/comments', async (req, res) => {
     try {
         let argument = await Argument.findOne({_id: req.params.argumentID});

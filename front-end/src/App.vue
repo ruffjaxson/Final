@@ -16,6 +16,7 @@
       <div class='footer-content'>
         <p>Pair Programmed by Jaxson Ruff and Riley Ross</p>
         <a class='footer-link' href='https://github.com/ruffjaxson/Final'>GitHub Repository</a>
+        <p>We spent 7 hours on this Final Project</p>
       </div>
     </div>
   </div>
@@ -101,7 +102,7 @@ a {
   color: white;
   text-align: center;
   font-family: 'Unica One', cursive;
-  font-size: 1.3em;
+  font-size: 1.1em;
 
 }
 .footer-link:visited {

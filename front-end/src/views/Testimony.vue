@@ -9,7 +9,8 @@
       <button class="conversation" v-for="conversation in conversations" :key="conversation._id" @click="selectconversation(conversation)">{{conversation.name}}</button>
     </div>
 
-    <div class='topForm' v-if="user">
+    <Login v-if="!this.$root.$data.loggedIn"/>
+    <div class='topForm' v-if="this.$root.$data.loggedIn">
       <h2>LOGGED IN AS: {{user.firstName.toUpperCase()}} {{user.lastName.toUpperCase()}} </h2>
       <div class='changeSaber'>
         <input id='saber' placeholder="NEW LIGHTSABER COLOR" v-model="newColor">
@@ -25,16 +26,15 @@
         <br />
         <button id="submit" class='conversation' type="submit">SUBMIT</button>
       </form>
-      <router-link id='edit-comment' class='conversation' to="/Edit">EDIT COMMENT</router-link>
+
     </div>
-    <Login v-else/>
 
     <div class='displayComments'>
       <div v-for="comment in comments" v-bind:key="comment.id">
         <div class="comment">
           <div class="message">
             <p>{{comment.message}}</p>
-            <p><i>-- {{user.firstName}} {{user.lastName}}, that wieldeth a {{user.lightsaberColor}} saber</i></p>
+            <p><i>-- {{comment.user.firstName}} {{comment.user.lastName}}, that wieldeth a {{comment.user.lightsaberColor}} saber</i></p>
             <form v-if="user" @submit.prevent="deleteComment">
               <button class='edit-delete' @click="deleteComment(comment)">DELETE COMMENT</button>
             </form>
@@ -60,10 +60,11 @@ export default {
       conversations: [],
       name: '',
       comments: [],
-      // userName: '',
+      conversation: null,
       message: '',
       error: '',
       newColor: '',
+
     }
   },
   async created() {
@@ -105,7 +106,8 @@ export default {
             }
             await axios.post(`/api/arguments/${this.conversation._id}/comments`, {
               message: this.message,
-              date: new Date().toLocaleString()
+              date: new Date().toLocaleString(),
+              user: this.user
             });
             // this.name = "";
             this.message = "";
@@ -134,33 +136,40 @@ export default {
           }
         },
         async logout() {
+          //this.conversation = null;
+            this.$root.$data.loggedIn = false;
           try {
+            console.log("Before logout call");
             await axios.delete("/api/users");
             this.$root.$data.user = null;
+            console.log("After logout call");
+            this.$forceUpdate();
+
           } catch (error) {
             this.$root.$data.user = null;
+            this.$forceUpdate();
           }
+          this.$forceUpdate();
+
         },
         async change(newColor) {
-          console.log(newColor);
+          //console.log(newColor);
           try {
             await axios.put("/api/users", {
               lightsaberColor: this.newColor,
               user: this.user,
             });
-            console.log("Made it through the function");
+            //console.log("Made it through the function");
             this.newColor = '';
             this.getComments();
+              this.$root.$data.user.lightsaberColor = newColor;
           } catch (error) {
             console.log(error);
           }
-          console.log("New color is:");
-          console.log(this.user.lightsaberColor);
+          this.$forceUpdate();
+          //console.log("New color is:");
+          //console.log(this.user.lightsaberColor);
         },
-        // put(`/api/arguments/${this.conversation._id}/comments`, {
-        //   message: this.message,
-        //   date: new Date().toLocaleString()
-        // });
   }
 }
 </script>
@@ -300,4 +309,32 @@ button {
 .footer {
   color: white !important;
 }
+/* Mobile Styles */
+@media only screen and (max-width: 450px) {
+  .conversation {
+    font-size: 0.4em;
+  }
+
+  .main-container {
+    font-size: 0.6em;
+  }
+
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 450px) and (max-width: 960px) {
+  .conversation {
+    font-size: 0.8em;
+  }
+
+  .main-container {
+    font-size: 0.9em;
+  }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 961px) {
+
+}
+
 </style>
