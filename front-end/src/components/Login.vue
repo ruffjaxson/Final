@@ -13,7 +13,7 @@
         <input type="password" placeholder="password" v-model="password">
       </fieldset>
       <fieldset>
-        <button type="submit" class="pure-button pure-button-primary" @click.prevent="register">JOIN</button>
+        <button type="submit" class="login-button" @click.prevent="register">JOIN</button>
       </fieldset>
     </form>
     <p v-if="error" class="error">{{error}}</p>
@@ -24,7 +24,7 @@
         <input type="password" placeholder="password" v-model="passwordLogin">
       </fieldset>
       <fieldset>
-        <button type="submit" class="pure-button pure-button-primary" @click.prevent="login">LOGIN</button>
+        <button type="submit" class="login-button" @click.prevent="login">LOGIN</button>
       </fieldset>
     </form>
     <p v-if="errorLogin" class="error">{{errorLogin}}</p>
@@ -92,3 +92,40 @@ export default {
  }
 }
 </script>
+
+<style>
+
+.heroBox{
+  display: flex;
+  flex-direction: column;
+  border: 5px outset gold;
+  background-color: #595959; /*lighter gray */
+  color: white;
+}
+
+input {
+  font-size: 1.2em;
+  height: 30px;
+  width: 200px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+legend {
+  font-size: 1.3em;
+  font-family: 'Dela Gothic One', cursive;
+  letter-spacing: 2px;
+
+}
+fieldset {
+  border: none;
+}
+.login-button {
+  border: 5px outset gold;
+  background-color: #333333;
+  color: white;
+  font-family: 'Dela Gothic One', cursive;
+  letter-spacing: 2px;
+}
+
+</style>

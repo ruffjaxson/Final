@@ -64,7 +64,6 @@ export default {
       message: '',
       error: '',
       newColor: '',
-
     }
   },
   async created() {
@@ -116,7 +115,6 @@ export default {
             //console.log(error);
           }
         },
-
         async getComments() {
           try {
             const response = await axios.get(`/api/arguments/${this.conversation._id}/comments`);
@@ -125,8 +123,6 @@ export default {
             //console.log(error);
           }
         },
-
-
         async deleteComment(comment) {
           try {
             await axios.delete(`/api/arguments/${this.conversation._id}/comments/${comment._id}`);
@@ -147,14 +143,11 @@ export default {
         },
         async change(newColor) {
           console.log(newColor);
-
-
           try {
             await axios.put("/api/users", {
               lightsaberColor: this.newColor,
               user: this.user,
             });
-
             console.log("Made it through the function");
             this.newColor = '';
             this.getComments();
@@ -164,53 +157,42 @@ export default {
           console.log("New color is:");
           console.log(this.user.lightsaberColor);
         },
-
         // put(`/api/arguments/${this.conversation._id}/comments`, {
         //   message: this.message,
         //   date: new Date().toLocaleString()
         // });
-
   }
 }
-
 </script>
 
 <style scoped>
-
 .instructions {
   color: white;
   margin-top: 20px;
   letter-spacing: 3px;
 }
-
 #logout {
   width: 100px;
   height: 50px;
   font-size: 0.7em;
 }
-
 #change {
   width: 100px;
   height: 40px;
   font-size: 0.7em;
 }
-
 #saber {
   width: 30%;
 }
-
 .topForm {
   color: white;
 }
-
 legend {
   color: white;
 }
-
 fieldset {
   color: white;
 }
-
 .main-container{
   background-color: #333333;
   color: white;
@@ -218,24 +200,20 @@ fieldset {
   flex-direction: column;
   align-items: center;
 }
-
 .small-hr {
   width: 30%
 }
-
 .topForm {
   width: 85%;
   color: white;
   font-family: 'Dela Gothic One', cursive;
   margin-bottom: 100px;
 }
-
 .displayComments {
   width: 80%;
   color: white;
   padding-bottom: 15px;
 }
-
 .commentInput {
   font-size: 0.9em;
   border: 4px solid white;
@@ -246,13 +224,11 @@ fieldset {
   font-family: 'Dela Gothic One', cursive;
   margin: 10px 0px 20px 0px;
 }
-
 .nameHolder {
   font-family: 'Dela Gothic One', cursive;
   font-size: 1.05em;
   margin: 20px 0px 0px 0px;
 }
-
 .conversation {
   font-family: 'Dela Gothic One', cursive;
   background-color: #595959; /*lighter gray */
@@ -264,7 +240,6 @@ fieldset {
   font-size: 1.25em;
   letter-spacing: 3px;
 }
-
 #edit-comment {
   width: 200px;
   height: 50px;
@@ -272,50 +247,41 @@ fieldset {
   padding: 8px;
   text-decoration: none;
 }
-
 #submit {
   width: 100px;
   height: 50px;
   font-size: 0.8em;
   text-decoration: none;
 }
-
 #conversations {
   width: 100%;
   display: flex;
   justify-content: space-around;
   margin: 35px 0px 30px 0px;
 }
-
 .edit-delete {
   margin: 0px;
   height: 20px;
   font-size: 8px;
 }
-
 p {
   margin-bottom: 5px;
 }
-
 input {
   font-size: 1.2em;
   height: 30px;
   width: 200px;
 }
-
 .main-container {
   color: black;
 }
-
 h2 {
   font-size: 0.8em;
   letter-spacing: 1.8px;
 }
-
 .message {
   width: 85%;
 }
-
 .comment {
   display: flex;
   justify-content: center;
@@ -324,9 +290,6 @@ h2 {
   border: 3px solid black;
   padding: 20px;
 }
-
-
-
 .submit {
   margin-bottom: 20px;
 }
@@ -334,7 +297,6 @@ button {
   margin-top: 20px;
   font-size: 1.2em;
 }
-
 .footer {
   color: white !important;
 }

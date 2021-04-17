@@ -207,30 +207,34 @@ router.delete("/", validUser, async (req, res) => {
 
 router.put('/', async (req, res) => {
   // Change lightsaber color
-  console.log("Trying to receive new color:");
-  console.log(req.body);
+  // console.log("Trying to receive new color:");
+  // console.log(req.body);
   if (!req.body.lightsaberColor)
     return res.status(400).send({
       message: "LIGHTSABER COLOR is required"
     });
   try {
-    console.log(req.body.user);
+    //console.log(req.body.user);
     let user = await User.findOne({_id:req.body.user._id});
     if (!user) {
       console.log("couldn't find user");
         res.send(404);
         return;
     }
-    console.log("Current lightsaber");
-    console.log(user.lightsaberColor);
-    console.log("Received (desired) color");
-    console.log(req.body.lightsaberColor);
-    console.log("attempting change.");
+    // console.log("Current lightsaber");
+    // console.log(user.lightsaberColor);
+    // console.log("Received (desired) color");
+    // console.log(req.body.lightsaberColor);
+    // console.log("attempting change.");
+    //console.log(user);
     user.lightsaberColor= req.body.lightsaberColor,
-    console.log("New color of user object:" + user.lightsaberColor);
+    //console.log("New color of user object:" + user.lightsaberColor);
 
     //lightsaberColor: req.body.lightsaberColor,
+    //console.log(user);
     await user.save();
+    //console.log("after save");
+    //console.log(user);
 
     // send back a 200 OK response
     return res.send({
