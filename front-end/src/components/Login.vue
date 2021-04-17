@@ -3,25 +3,25 @@
   <div class="heroBox">
     <form class="pure-form">
       <fieldset>
-        <legend>Join the Ranks</legend>
-        <input placeholder="first name" v-model="firstName">
-        <input placeholder="last name" v-model="lastName">
-        <input placeholder="lightsaber color" v-model="lightsaberColor">
+        <legend id='enlist'>ENLIST TO LEAVE A COMMENT</legend>
+        <input placeholder="FIRST NAME" v-model="firstName">
+        <input placeholder="LAST NAME" v-model="lastName">
+        <input placeholder="LIGHTSABER COLOR" v-model="lightsaberColor">
       </fieldset>
       <fieldset>
-        <input placeholder="username" v-model="username">
-        <input type="password" placeholder="password" v-model="password">
+        <input placeholder="USERNAME" v-model="username">
+        <input type="password" placeholder="PASSWORD" v-model="password">
       </fieldset>
       <fieldset>
         <button type="submit" class="login-button" @click.prevent="register">JOIN</button>
       </fieldset>
     </form>
     <p v-if="error" class="error">{{error}}</p>
-    <form class="pure-form space-above">
+    <form id='loginstuff' class="pure-form space-above">
       <fieldset>
-        <legend>Login</legend>
-        <input placeholder="username" v-model="usernameLogin">
-        <input type="password" placeholder="password" v-model="passwordLogin">
+        <legend>LOGIN</legend>
+        <input placeholder="USERNAME" v-model="usernameLogin">
+        <input type="password" placeholder="PASSWORD" v-model="passwordLogin">
       </fieldset>
       <fieldset>
         <button type="submit" class="login-button" @click.prevent="login">LOGIN</button>
@@ -96,25 +96,47 @@ export default {
 
 <style>
 
+#enlist {
+  margin-top: 15px;
+  margin-bottom: 30px;
+  text-decoration: underline;
+  letter-spacing: 3px;
+  font-size: 1.6em;
+}
+
+button:active {
+  background-color: #fffb00;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
 .hero {
   display: flex;
   justify-content: center;
 }
 
 .heroBox{
+  padding-top: 30px;
   display: flex;
   flex-direction: column;
   border: 5px outset gold;
   background-color: #595959; /*lighter gray */
   color: white;
+  margin-bottom: 30px;
 }
 
 input {
-  font-size: 1.2em;
+  font-size: 0.6em;
+  font-family: 'Dela Gothic One', cursive;
   height: 30px;
+  letter-spacing: 2px;
   width: 200px;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+#loginstuff{
+  margin-top: 30px;
 }
 
 legend {

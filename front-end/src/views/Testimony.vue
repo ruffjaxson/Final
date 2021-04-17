@@ -175,11 +175,21 @@ export default {
 </script>
 
 <style scoped>
+
+button:active {
+  background-color: #fffb00;
+}
+
 .instructions {
   color: white;
   margin-top: 20px;
   letter-spacing: 3px;
 }
+
+.changeSaber{
+  font-family: 'Dela Gothic One', cursive;
+}
+
 #logout {
   width: 100px;
   height: 50px;
@@ -192,6 +202,10 @@ export default {
 }
 #saber {
   width: 30%;
+  font-family: 'Dela Gothic One', cursive;
+  font-size: 0.7em;
+  width: 220px;
+  letter-spacing: 1px;
 }
 .topForm {
   color: white;
@@ -216,7 +230,7 @@ fieldset {
   width: 85%;
   color: white;
   font-family: 'Dela Gothic One', cursive;
-  margin-bottom: 100px;
+  margin-bottom: 40px;
 }
 .displayComments {
   width: 80%;
@@ -232,6 +246,7 @@ fieldset {
   height: 100px;
   font-family: 'Dela Gothic One', cursive;
   margin: 10px 0px 20px 0px;
+  letter-spacing: 1px;
 }
 .nameHolder {
   font-family: 'Dela Gothic One', cursive;
@@ -257,10 +272,11 @@ fieldset {
   text-decoration: none;
 }
 #submit {
-  width: 100px;
+  width: 115px;
   height: 50px;
   font-size: 0.8em;
   text-decoration: none;
+  text-align: center;
 }
 #conversations {
   width: 100%;
